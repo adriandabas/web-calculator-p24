@@ -76,18 +76,18 @@ function result() {
     }
 
     if (currentOperator == "divide") {
-        currentValue = currentValue / newValue
+        currentValue = (currentValue / newValue).toFixed(5) //pour ne pas avoir trop de décimales
     }
 
     currentDisplay.innerHTML = currentValue
     currentOperator = null
 }
 
-// GESTION DES SYMBOLES
+// GESTION AC
 document.querySelectorAll('[data-action="clear"]')[0].addEventListener("click", clearCalculator)
 
 function clearDisplay() {
-    document.getElementsByClassName("calculator__display")[0].innerHTML = "  "
+    document.getElementsByClassName("calculator__display")[0].innerHTML = "0"
 }
 
 function clearCalculator() {
@@ -95,3 +95,13 @@ function clearCalculator() {
     currentValue = 0
     currentOperator = null
 }
+
+// GESTION FLOAT
+document.querySelectorAll('[data-action="decimal"]')[0].addEventListener("click", () => {
+    let currentDisplay = document.getElementsByClassName("calculator__display")[0]
+
+    //pour ne pas avoir plusieurs virgules
+    if (!currentDisplay.innerHTML.includes(".")) {
+        currentDisplay.innerHTML += "."
+    }
+})
