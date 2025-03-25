@@ -3,3 +3,95 @@
 
 // # START EDITING YOUR JAVASCRIPT HERE
 // ===============
+
+
+// VARIABLES GLOBALES
+let currentValue = 0
+let currentOperator = null
+
+
+// GESTION DES CHIFFRES
+let numbers = document.querySelectorAll("button.number")
+//console.log(numbers)
+
+numbers.forEach((e) => e.addEventListener("click", () => {
+    //console.log(e.innerHTML)
+    updateDisplay(e.innerHTML)
+}))
+
+function updateDisplay(number) {
+    let currentDisplay = document.getElementsByClassName("calculator__display")[0]
+    //console.log(currentDisplay.innerHTML)
+
+    if (currentDisplay.innerHTML == "0") {
+        currentDisplay.innerHTML = number
+    }
+    else {
+        currentDisplay.innerHTML += number
+    }
+}
+
+//GESTION DES OPÉRATEURS
+let operators = document.querySelectorAll("button.key--operator")
+//console.log(operators)
+
+operators.forEach((e) => e.addEventListener("click", () => {
+    //console.log(e.innerHTML)
+    handleOperator(e.getAttribute("data-action"))
+}))
+
+function handleOperator(operator) {
+    let currentDisplay = document.getElementsByClassName("calculator__display")[0]
+
+    if (currentOperator == null) {
+        currentValue = Number(currentDisplay.innerHTML)
+        clearDisplay()
+    }
+    else {
+        result()
+    }
+
+    currentOperator = operator
+}
+
+//GESTION DU ÉGAL
+document.querySelectorAll("button.key--equal")[0].addEventListener("click", result)
+
+function result() {
+    let currentDisplay = document.getElementsByClassName("calculator__display")[0]
+    let newValue = Number(currentDisplay.innerHTML)
+    //console.log(newValue)
+
+    if (currentOperator == "add") {
+        currentValue += newValue
+        //console.log(currentValue)
+    }
+
+    if (currentOperator == "subtract") {
+        currentValue -= newValue
+    }
+
+    if (currentOperator == "multiply") {
+        currentValue = currentValue * newValue
+    }
+
+    if (currentOperator == "divide") {
+        currentValue = currentValue / newValue
+    }
+
+    currentDisplay.innerHTML = currentValue
+    currentOperator = null
+}
+
+// GESTION DES SYMBOLES
+document.querySelectorAll('[data-action="clear"]')[0].addEventListener("click", clearCalculator)
+
+function clearDisplay() {
+    document.getElementsByClassName("calculator__display")[0].innerHTML = "  "
+}
+
+function clearCalculator() {
+    clearDisplay()
+    currentValue = 0
+    currentOperator = null
+}
